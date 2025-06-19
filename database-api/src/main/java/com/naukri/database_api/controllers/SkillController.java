@@ -21,10 +21,16 @@ public class SkillController {
         this.skillRepo = skillRepo;
     }
 
-    @PostMapping("/save/answer")
+    @PostMapping("/save")
     public ResponseEntity<Skill> create(@RequestBody Skill skills){
         skillRepo.save(skills);
         return new ResponseEntity<>(skills, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/get/{skillName}")
+    public ResponseEntity getSKillByName(@PathVariable String skillName){
+        skillRepo.findByName(skillName);
+        return new ResponseEntity(skillName, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

@@ -1,5 +1,6 @@
 package com.naukri.central_api.service;
 
+import com.naukri.central_api.connectors.DatabaseApiConnector;
 import com.naukri.central_api.dto.JobSeekerRegistrationDto;
 import com.naukri.central_api.models.AppUser;
 import com.naukri.central_api.models.Skill;
@@ -14,12 +15,15 @@ public class UserService {
 
     SkillService skillService;
     MappingUtility mappingUtility;
+    DatabaseApiConnector dbApiConnector;
 
     @Autowired
     public UserService(SkillService skillService,
-                       MappingUtility mappingUtility){
+                       MappingUtility mappingUtility,
+                       DatabaseApiConnector dbApiConnector){
         this.skillService = skillService;
         this.mappingUtility = mappingUtility;
+        this.dbApiConnector = dbApiConnector;
     }
 
     public AppUser registerJobSeeker(JobSeekerRegistrationDto jobSeekerDto){
@@ -44,7 +48,9 @@ public class UserService {
 
     }
 
-    public AppUser saveUser(AppUser user){
+    AppUser saveUser(AppUser user){  // by not declaring public this class we are making it default - that means it won't be accessible outside this package
         // this method will be having logic to call SaveUser endpoint of appuser control of dbApi
+        return dbApiConnector.callSaveUserEndpoint(user);
+
     }
 }

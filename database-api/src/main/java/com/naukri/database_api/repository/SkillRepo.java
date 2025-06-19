@@ -8,4 +8,7 @@ import java.util.UUID;
 
 @Repository
 public interface SkillRepo extends JpaRepository<Skill, UUID> {
+
+    public Skill findByName(String name); //this function will be implemented by jpa and hibernate for us
+
 }
