@@ -18,4 +18,5 @@ public class Skill {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     UUID id;
+    String name;
 }
