@@ -11,7 +11,6 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 public class DatabaseApiConnector {
-
     // we will write all calling methods here we will calling all the database api endpoints from this class
 
     @Value("${database.api.baseurl}")
