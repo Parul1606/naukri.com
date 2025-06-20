@@ -1,7 +1,7 @@
 package com.naukri.database_api.controllers;
 
 import com.naukri.database_api.models.Questions;
-import com.naukri.database_api.repository.QuestionsRepo;
+import com.naukri.database_api.repositories.QuestionsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class QuestionsController {
         this.questionsRepo = questionsRepo;
     }
 
-    @PostMapping("/save/answer")
+    @PostMapping("/save")
     public ResponseEntity<Questions> create(@RequestBody Questions questions){
         questionsRepo.save(questions);
         return new ResponseEntity<>(questions, HttpStatus.CREATED);

@@ -1,4 +1,4 @@
-package com.naukri.database_api.repository;
+package com.naukri.database_api.repositories;
 
 import com.naukri.database_api.models.FormSubmission;
 import org.springframework.data.jpa.repository.JpaRepository;

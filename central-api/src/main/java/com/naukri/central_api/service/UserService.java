@@ -4,10 +4,13 @@ import com.naukri.central_api.connectors.DatabaseApiConnector;
 import com.naukri.central_api.dto.JobSeekerRegistrationDto;
 import com.naukri.central_api.models.AppUser;
 import com.naukri.central_api.models.Skill;
+import com.naukri.central_api.service.SkillService;
 import com.naukri.central_api.utility.MappingUtility;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -42,6 +45,7 @@ public class UserService {
         // we need to fetch List<Skill> API for List<String>
         List<String> skillNames = jobSeekerDto.getSkillSet();
         List<Skill> skills = skillService.getAllSkills(skillNames);
+        //List<Skill> skills = new ArrayList<>();
         AppUser jobSeeker = mappingUtility.mapJobSeekerDetailsToAppUser(jobSeekerDto, skills);
         AppUser user = this.saveUser(jobSeeker);
         return user;

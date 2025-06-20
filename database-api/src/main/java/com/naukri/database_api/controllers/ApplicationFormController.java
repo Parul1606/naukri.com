@@ -1,7 +1,7 @@
 package com.naukri.database_api.controllers;
 
 import com.naukri.database_api.models.ApplicationForm;
-import com.naukri.database_api.repository.ApplicationFormRepo;
+import com.naukri.database_api.repositories.ApplicationFormRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

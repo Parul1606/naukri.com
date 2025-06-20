@@ -9,6 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+
 public class JobSeekerRegistrationDto {
     private String name;
     private String password;

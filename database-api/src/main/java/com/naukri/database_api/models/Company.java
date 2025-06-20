@@ -29,7 +29,7 @@ public class Company {
     String websiteLink;
 
     @Column(unique = true, nullable = false)
-    String LinkedinLink;
+    String linkedinLink;
 
     @Column(nullable = false)
     int companySize;

@@ -37,7 +37,6 @@ public class Job {
     @ManyToOne
     AppUser createdBy; // this is the recruiter who created the job
 
-    @CreationTimestamp
     LocalDateTime postedDate;
 
     int totalApplicants;

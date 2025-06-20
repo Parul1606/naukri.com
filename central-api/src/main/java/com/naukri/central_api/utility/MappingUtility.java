@@ -12,7 +12,7 @@ public class MappingUtility {
 
     public AppUser mapJobSeekerDetailsToAppUser(JobSeekerRegistrationDto jobSeekerDto, List<Skill> skills){
         AppUser appUser = new AppUser();
-        appUser.setUserType("JOBSEEKER");
+        appUser.setUserType("JOB_SEEKER");
         appUser.setName(jobSeekerDto.getName());
         appUser.setEmail(jobSeekerDto.getEmail());
         appUser.setPassword(jobSeekerDto.getPassword());

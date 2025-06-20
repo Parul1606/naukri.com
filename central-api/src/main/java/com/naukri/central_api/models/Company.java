@@ -15,7 +15,7 @@ public class Company {
     String companyName;
     String email;
     String websiteLink;
-    String LinkedinLink;
+    String linkedinLink;
     int companySize;
     String industry;
     LocalDateTime createdAt;

@@ -18,8 +18,6 @@ public class ApplicationForm {
     @GeneratedValue(strategy = GenerationType.AUTO)
     UUID id;
 
-
-
     @ManyToMany
     List<Questions> questionsList;
 }

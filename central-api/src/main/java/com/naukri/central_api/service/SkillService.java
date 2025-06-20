@@ -20,7 +20,7 @@ public class SkillService {
 
     public List<Skill> getAllSkills(List<String> skillNames){
         List<Skill> skillObjs = new ArrayList<>();
-        for(int i=0; i<skillNames.size(); i++){
+        for(int i = 0; i < skillNames.size(); i++){
             String skillName = skillNames.get(i);
             // we need to get the skill object from database by skill name
             Skill skill = this.getSkillByName(skillName);

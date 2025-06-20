@@ -1,7 +1,7 @@
 package com.naukri.database_api.controllers;
 
 import com.naukri.database_api.models.Job;
-import com.naukri.database_api.repository.JobRepo;
+import com.naukri.database_api.repositories.JobRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/db.job")
+@RequestMapping("/api/v1/db/job")
 public class JobController {
 
     JobRepo jobRepo;
@@ -21,7 +21,7 @@ public class JobController {
         this.jobRepo = jobRepo;
     }
 
-    @PostMapping("/save/answer")
+    @PostMapping("/save")
     public ResponseEntity<Job> create(@RequestBody Job job){
         jobRepo.save(job);
         return new ResponseEntity<>(job, HttpStatus.CREATED);

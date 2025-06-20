@@ -1,8 +1,7 @@
 package com.naukri.database_api.controllers;
 
 import com.naukri.database_api.models.AppUser;
-import com.naukri.database_api.repository.AppUserRepository;
-import jakarta.persistence.Id;
+import com.naukri.database_api.repositories.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,7 @@
 package com.naukri.database_api.controllers;
 
 import com.naukri.database_api.models.Skill;
-import com.naukri.database_api.repository.SkillRepo;
+import com.naukri.database_api.repositories.SkillRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +28,9 @@ public class SkillController {
     }
 
     @GetMapping("/get/{skillName}")
-    public ResponseEntity getSKillByName(@PathVariable String skillName){
-        skillRepo.findByName(skillName);
-        return new ResponseEntity(skillName, HttpStatus.OK);
+    public ResponseEntity getSkillByName(@PathVariable String skillName){
+        Skill skill = skillRepo.findByName(skillName);
+        return new ResponseEntity(skill, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

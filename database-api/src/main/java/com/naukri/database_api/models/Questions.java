@@ -20,5 +20,5 @@ public class Questions {
     @GeneratedValue(strategy = GenerationType.AUTO)
     UUID id;
 
-    String Question;
+    String question;
 }

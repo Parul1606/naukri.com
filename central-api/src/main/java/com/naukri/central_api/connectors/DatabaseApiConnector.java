@@ -39,7 +39,7 @@ public class DatabaseApiConnector {
     }
 
     public Skill callSaveSkillEndpoint(Skill skill){
-        String url = baseUrl + "skill/save";
+        String url = baseUrl + "/skill/save";
         RequestEntity request = RequestEntity.post(url).body(skill);
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Skill> response = restTemplate.exchange(url, HttpMethod.POST, request, Skill.class);
