@@ -52,9 +52,18 @@ public class UserService {
 
     }
 
+    public boolean validateCredentials(String email, String password){
+        // we need to call databaseapi to provide user object on the basis of email.
+        // so to call the database api we should call database api connector class
+        AppUser user = dbApiConnector.callGetUserByEmailEndpoint(email);
+        if(user.getPassword().equals(password)){
+            return true;
+        }
+        return false;
+    }
+
     AppUser saveUser(AppUser user){  // by not declaring public this class we are making it default - that means it won't be accessible outside this package
         // this method will be having logic to call SaveUser endpoint of appuser control of dbApi
         return dbApiConnector.callSaveUserEndpoint(user);
-
     }
 }

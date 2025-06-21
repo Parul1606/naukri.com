@@ -22,6 +22,17 @@ public class DatabaseApiConnector extends RestAPI{
 
     ModelMapper modelMapper = new ModelMapper();
 
+    /**
+     * this function will make request to the database api get user by email endpoint
+     * @param email
+     * @return
+     */
+    public AppUser callGetUserByEmailEndpoint(String email){
+        String endpoint = baseUrl + "/user/email/" + email;
+        Object resp = this.makeGetCall(endpoint, new HashMap<>());
+        return modelMapper.map(resp, AppUser.class);
+    }
+
     public Skill callGetSkillByNameEndpoint(String skillName){
         // In this function we will have logic to hit getSkillByName endpoint of DBAPI
         // Create URL
@@ -48,4 +59,5 @@ public class DatabaseApiConnector extends RestAPI{
         Object resp = this.makePostCall(url, company, new HashMap<>());
         return modelMapper.map(resp, Company.class);
     }
+
 }
