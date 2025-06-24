@@ -9,17 +9,21 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * getter, setter, allargscosntructor, noargsconstructor and toString
+ * all these are generated automatically with the help of HIBERNATE using lombok library
+ * */
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor  // this is nothing but default constructor
 @ToString
 
 @Table(name = "users")
 public class AppUser {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)  // this line indicates that hibernate will generate id for us
     UUID id;
     String name;
 
@@ -28,6 +32,8 @@ public class AppUser {
 
     @Column(nullable = false)
     String password;
+
+    String status;
 
     @Column(unique = true, nullable = false)
     Long phoneNumber;

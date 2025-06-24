@@ -30,6 +30,9 @@ public class DatabaseApiConnector extends RestAPI{
     public AppUser callGetUserByEmailEndpoint(String email){
         String endpoint = baseUrl + "/user/email/" + email;
         Object resp = this.makeGetCall(endpoint, new HashMap<>());
+        if(resp == null){
+            return null;
+        }
         return modelMapper.map(resp, AppUser.class);
     }
 
@@ -38,14 +41,19 @@ public class DatabaseApiConnector extends RestAPI{
         // Create URL
         String url = baseUrl + "/skill/get/" + skillName;
         Object resp = this.makeGetCall(url, new HashMap<>());
+        if(resp == null){
+            return null;
+        }
         return modelMapper.map(resp, Skill.class);
     }
 
     public AppUser callSaveUserEndpoint(AppUser user){
         String url = baseUrl + "/user/save";
         Object resp = this.makePostCall(url, user, new HashMap<>());
+        if(resp == null){
+            return null;
+        }
         return modelMapper.map(resp, AppUser.class);
-
     }
 
     public Skill callSaveSkillEndpoint(Skill skill){

@@ -1,9 +1,10 @@
 package com.naukri.central_api.controller;
 
 import com.naukri.central_api.dto.JobSeekerRegistrationDto;
+import com.naukri.central_api.dto.JwtTokenResponseDto;
 import com.naukri.central_api.models.AppUser;
 import com.naukri.central_api.service.UserService;
-import org.apache.catalina.User;
+import com.naukri.central_api.utility.AuthUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,17 +18,26 @@ import org.springframework.web.bind.annotation.RestController;
 public class AppUserController {
 
     UserService userService;
+    AuthUtility authUtility;
 
     @Autowired
-    public AppUserController(UserService userService){
+    public AppUserController(UserService userService,
+                             AuthUtility authUtility){
         this.userService = userService;
+        this.authUtility = authUtility;
     }
 
     @PostMapping("/register")
     public ResponseEntity registerJobApplicant(@RequestBody JobSeekerRegistrationDto jobSeekerDto){
         // calling user service
         AppUser user = userService.registerJobSeeker(jobSeekerDto);
-        return new ResponseEntity(user, HttpStatus.CREATED);
+        String token = authUtility.generateJwtToken(user.getEmail(),
+                user.getPassword(),
+                user.getUserType());
+        JwtTokenResponseDto tokenResp = new JwtTokenResponseDto(token);
+        return new ResponseEntity(tokenResp, HttpStatus.CREATED);
     }
+
+
 }
 

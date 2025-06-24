@@ -58,3 +58,13 @@ public class AuthUtility {
         return userService.validateCredentials(email, password);
     }
 }
+
+
+
+
+/**
+ * Working flow of auth api
+ * when an api endpoint is hit then it goes to auth filter -> auth filter asks to auth configuration if this endpoint is valid or not..
+ * if the endpoint is not secured it will be returned to auth filter and auth filter will direct to the controller that it's not valid
+ * if it valid then auth-config will call -> auth-utility -> then if it is valid then auth-utility will generate token -> then it will return to auth-filter with the process and will return to controller.
+ * */

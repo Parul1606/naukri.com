@@ -13,6 +13,18 @@ import java.util.UUID;
 @RequestMapping("/api/v1/db/user")
 public class AppUserController {
 
+    /**
+     * Bean → Spring-managed object (created using @Component, @Service, etc.)
+     * IoC Container → Controls object creation & injection (Inversion of Control)
+     * Manual Object → Created using 'new' keyword (not recommended in Spring)
+     */
+
+    /**
+     * Constructor-based Dependency Injection of AppUserRepository.
+     * Spring Boot's IoC container automatically provides the repository bean.
+     * This allows the controller to access database operations without manual object creation.
+     */
+
     AppUserRepository appUserRepository;  //springboot will provide object of app user repository from IOC container
 
     @Autowired
@@ -26,7 +38,7 @@ public class AppUserController {
         // So to create the user object we will have all the property set but only id property will not be set
         // Hibernate will see as this user object is not having id property set
         // So, I Should create a new record inside user table.
-        appUserRepository.save(user);
+        appUserRepository.save(user);   //This will save the user into the database using Spring Data JPA.
         return new ResponseEntity(user, HttpStatus.CREATED);
     }
 
