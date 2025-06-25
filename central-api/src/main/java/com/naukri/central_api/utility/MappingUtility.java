@@ -30,7 +30,7 @@ public class MappingUtility {
         Company company = new Company();
         company.setCompanyName(companyRegistrationDto.getCompanyName());
         company.setCompanySize(companyRegistrationDto.getCompanySize());
-        company.setIndustry(companyRegistrationDto.getEmail());
+        company.setIndustry(companyRegistrationDto.getIndustry());
         company.setEmail(companyRegistrationDto.getEmail());
         company.setWebsiteLink(companyRegistrationDto.getWebsiteLink());
         company.setLinkedinLink(companyRegistrationDto.getLinkedinLink());

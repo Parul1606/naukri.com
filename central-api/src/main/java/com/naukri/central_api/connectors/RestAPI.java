@@ -12,14 +12,6 @@ public class RestAPI {
 
     // makeGetCall, makePostCall, makePutCall, makeDeleteCall
 
-    public Object makePostCall(String url, Object body, Map<String, String> queryParams){
-        url = this.addQueryParams(url, queryParams);
-        RequestEntity request = RequestEntity.post(url).body(body);
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity response = restTemplate.exchange(url, HttpMethod.POST, request, Object.class);
-        return response.getBody();
-    }
-
     public String addQueryParams(String url, Map<String, String> map){
         if(map.size() == 0){
             return url;
@@ -36,6 +28,14 @@ public class RestAPI {
         return url;
     }
 
+    public Object makePostCall(String url, Object body, Map<String, String> queryParams) {
+        url = this.addQueryParams(url, queryParams);
+        RequestEntity request = RequestEntity.post(url).body(body);
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity response = restTemplate.exchange(url, HttpMethod.POST, request, Object.class);
+        return response.getBody();
+    }
+
 
     public Object makeGetCall(String url, Map<String, String> queryParams){
         url = this.addQueryParams(url, queryParams);
@@ -45,9 +45,9 @@ public class RestAPI {
         return response.getBody();
     }
 
-    public Object makePutCall(String url, Map<String, String> queryParams){
+    public Object makePutCall(String url, Object body, Map<String, String> queryParams){
         url = this.addQueryParams(url, queryParams);
-        RequestEntity request = RequestEntity.put(url).build();
+        RequestEntity request = RequestEntity.put(url).body(body);
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Object> response = restTemplate.exchange(url, HttpMethod.PUT, request, Object.class);
         return response.getBody();
