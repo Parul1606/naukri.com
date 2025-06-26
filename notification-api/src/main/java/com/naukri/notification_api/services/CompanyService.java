@@ -43,8 +43,9 @@ public class CompanyService {
         return templateEngine;
     }
 
-    public void sendInvitationMailToRecruiter(AppUser recruiter) throws MessagingException {
+    public void sendInvitationMailToRecruiter(AppUser recruiter, String token) throws MessagingException {
         // To send email we need to create email content.
+        String acceptLink = "http://localhost:8081/api/v1/central/aceept-invitation/" + token;
         JavaMailSenderImpl javaMailSender = this.getJavaMailSender();
         MimeMessage mimeMessage = javaMailSender.createMimeMessage(); // We require this mimemessage class to set content of the mail
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
@@ -55,7 +56,24 @@ public class CompanyService {
         Context context = new Context();
         context.setVariable("recruiterName" , recruiter.getName());
         context.setVariable("companyName", recruiter.getCompany().getCompanyName());
+        context.setVariable("acceptLink", acceptLink);
         String htmlContent = templateEngine.process("invite-recruiter", context);
+        mimeMessageHelper.setText(htmlContent, true);
+        javaMailSender.send(mimeMessage);
+    }
+
+    public void sendAcceptNotificationMailToAdmin(AppUser recruiter, AppUser admin) throws MessagingException {
+        JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+        Context context = new Context();
+        context.setVariable("adminName", admin.getName());
+        context.setVariable("recruiterName", recruiter.getName());
+        context.setVariable("recruiterEmail", recruiter.getEmail());
+        context.setVariable("recruiterPhone", recruiter.getPhoneNumber());
+        mimeMessageHelper.setTo(admin.getEmail());
+        mimeMessageHelper.setSubject("Invitation accepted by recruiter: " + recruiter.getName());
+        String htmlContent = this.getTemplateEngine().process("accept-invitation", context);
         mimeMessageHelper.setText(htmlContent, true);
         javaMailSender.send(mimeMessage);
     }

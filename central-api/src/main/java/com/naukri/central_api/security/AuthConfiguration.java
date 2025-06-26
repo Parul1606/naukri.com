@@ -27,7 +27,7 @@ public class AuthConfiguration {
                 // Define which endpoints are public and which require authentication
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/api/v1/central/company/register", "/api/v1/central/user/register"
+                                "/api/v1/central/company/register", "/api/v1/central/user/register", "api/v1/central/company/accept-invitation/**"
                         ).permitAll() // Public endpoints
                         .anyRequest().authenticated() // All other endpoints require authentication
                 )

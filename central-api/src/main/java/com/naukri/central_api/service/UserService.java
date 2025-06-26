@@ -86,6 +86,14 @@ public class UserService {
         return user.getUserType().equals("ADMIN") ? true : false;
     }
 
+    public boolean isUserRecruiter(AppUser user){
+        return user.getUserType().equals("RECRUITER") ? true : false;
+    }
+
+    public AppUser getUserByEmail(String email){
+        return dbApiConnector.callGetUserByEmailEndpoint(email);
+    }
+
     AppUser saveUser(AppUser user){  // by not declaring public this class we are making it default - that means it won't be accessible outside this package
         // this method will be having logic to call SaveUser endpoint of appuser control of dbApi
         return dbApiConnector.callSaveUserEndpoint(user);

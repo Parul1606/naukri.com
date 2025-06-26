@@ -3,6 +3,7 @@ package com.naukri.central_api.controller;
 import com.naukri.central_api.dto.CompanyRegistrationDto;
 import com.naukri.central_api.dto.JwtTokenResponseDto;
 import com.naukri.central_api.dto.RecruiterDetailsDto;
+import com.naukri.central_api.exceptions.UnAuthorizedException;
 import com.naukri.central_api.models.AppUser;
 import com.naukri.central_api.models.Company;
 import com.naukri.central_api.service.CompanyService;
@@ -42,5 +43,16 @@ public class CompanyController {
                                           @RequestHeader String Authorization){
         AppUser recruiter = companyService.inviteRecruiter(recruiterDetailsDto, Authorization);
         return new ResponseEntity(recruiter, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/accept-invitation/{token}")
+    public ResponseEntity acceptInvitation(@PathVariable String token){
+        // call company service
+        try{
+            AppUser recruiter = companyService.acceptInvitation(token);
+            return new ResponseEntity(recruiter, HttpStatus.CREATED);
+        } catch (UnAuthorizedException e){
+            return new ResponseEntity(e, HttpStatus.UNAUTHORIZED);
+        }
     }
 }

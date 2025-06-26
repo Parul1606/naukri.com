@@ -7,9 +7,13 @@ import com.naukri.central_api.dto.RecruiterDetailsDto;
 import com.naukri.central_api.exceptions.UnAuthorizedException;
 import com.naukri.central_api.models.AppUser;
 import com.naukri.central_api.models.Company;
+import com.naukri.central_api.utility.AuthUtility;
 import com.naukri.central_api.utility.MappingUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CompanyService {
@@ -18,16 +22,19 @@ public class CompanyService {
     DatabaseApiConnector dbApiConnector;
     UserService userService;
     NotificationApiConnector notificationApiConnector;
+    AuthUtility authUtility;
 
     @Autowired
     public CompanyService(MappingUtility mappingUtility,
                           DatabaseApiConnector dbApiConnector,
                           UserService userService,
-                          NotificationApiConnector notificationApiConnector){
+                          NotificationApiConnector notificationApiConnector,
+                          AuthUtility authUtility){
         this.mappingUtility = mappingUtility;
         this.dbApiConnector = dbApiConnector;
         this.userService = userService;
         this.notificationApiConnector = notificationApiConnector;
+        this.authUtility = authUtility;
     }
     /**
     * Expectation of this function is to save company details in the company table
@@ -70,11 +77,37 @@ public class CompanyService {
         // we need create user object for the recruiter
         AppUser recruiter = mappingUtility.mapRecruiterDtoToAppUser(recruiterDetailsDto, company);
         userService.saveUser(recruiter);
+        token = authUtility.generateJwtToken(recruiter.getEmail(), recruiter.getPassword(), "RECRUITER");
 
         // Mail Logic
         // we need to write some logic such that we will be able to notify recruiter that hey you are invited to this company.
         // from here we need to trigger Notification-api -> invite-recruiter endpoint such that recruiter will receieve mail
-        notificationApiConnector.callInviteRecruiterEndpoint(recruiter);
+        notificationApiConnector.callInviteRecruiterEndpoint(recruiter, token);
+        return recruiter;
+    }
+
+    public AppUser acceptInvitation(String token){
+        String[] payload = userService.decryptJwtToken(token).split(":");
+        String email = payload[0];
+        String password = payload[1];
+        String role = payload[2];
+        if(!userService.validateCredentials(email, password)){
+            throw new UnAuthorizedException("Invalid exception");
+        }
+        AppUser recruiter = userService.getUserFromToken(token);
+        if(!userService.isUserRecruiter(recruiter)){
+            throw new UnAuthorizedException("Invalid operation");
+        }
+        recruiter.setStatus("ACTIVE");
+        userService.saveUser(recruiter);
+        //mail to company admin that hey this recruiter has accepted ur invitation
+        String adminEmail = recruiter.getCompany().getCompanyName();
+        AppUser admin = userService.getUserByEmail(adminEmail);
+        List<AppUser> mailDetails = new ArrayList<>();
+        mailDetails.add(recruiter);
+        mailDetails.add(admin);
+        //calling notification api connector
+        notificationApiConnector.callAcceptInvitationEndpoint(mailDetails);
         return recruiter;
     }
 }
