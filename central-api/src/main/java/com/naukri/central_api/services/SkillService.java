@@ -1,4 +1,4 @@
-package com.naukri.central_api.service;
+package com.naukri.central_api.services;
 
 import com.naukri.central_api.connectors.DatabaseApiConnector;
 import com.naukri.central_api.models.Skill;

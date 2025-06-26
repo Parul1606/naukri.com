@@ -21,4 +21,6 @@ public class Questions {
     UUID id;
 
     String question;
+
+    boolean isMandatory;
 }

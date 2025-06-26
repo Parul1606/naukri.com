@@ -3,7 +3,7 @@ package com.naukri.central_api.controller;
 import com.naukri.central_api.dto.JobSeekerRegistrationDto;
 import com.naukri.central_api.dto.JwtTokenResponseDto;
 import com.naukri.central_api.models.AppUser;
-import com.naukri.central_api.service.UserService;
+import com.naukri.central_api.services.UserService;
 import com.naukri.central_api.utility.AuthUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

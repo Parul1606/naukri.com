@@ -1,9 +1,6 @@
 package com.naukri.central_api.connectors;
 
-import com.naukri.central_api.models.AppUser;
-import com.naukri.central_api.models.Company;
-import com.naukri.central_api.models.Skill;
-import com.naukri.central_api.service.CompanyService;
+import com.naukri.central_api.models.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
@@ -72,6 +69,18 @@ public class DatabaseApiConnector extends RestAPI{
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Company> response = restTemplate.exchange(url, HttpMethod.POST, request, Company.class);
         return response.getBody();
+    }
+
+    public Questions callCreateQuestionEndpoint(Questions questions){
+        String url = baseUrl + "/questions/save";
+        Object resp = this.makePostCall(url, questions, new HashMap<>());
+        return  modelMapper.map(resp, Questions.class);
+    }
+
+    public Job callSaveJobEndpoint(Job job){
+        String endpoint = baseUrl + "/job/save";
+        Object resp = this.makePostCall(endpoint, job, new HashMap<>());
+        return modelMapper.map(resp, Job.class);
     }
 
 }

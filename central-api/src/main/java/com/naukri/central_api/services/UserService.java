@@ -1,19 +1,15 @@
-package com.naukri.central_api.service;
+package com.naukri.central_api.services;
 
 import com.naukri.central_api.connectors.DatabaseApiConnector;
 import com.naukri.central_api.dto.JobSeekerRegistrationDto;
 import com.naukri.central_api.models.AppUser;
 import com.naukri.central_api.models.Skill;
-import com.naukri.central_api.service.SkillService;
-import com.naukri.central_api.utility.AuthUtility;
 import com.naukri.central_api.utility.MappingUtility;
 import io.jsonwebtoken.Jwts;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

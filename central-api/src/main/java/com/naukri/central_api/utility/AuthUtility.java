@@ -1,13 +1,12 @@
 package com.naukri.central_api.utility;
 
-import com.naukri.central_api.service.UserService;
+import com.naukri.central_api.services.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 @Component
@@ -56,6 +55,10 @@ public class AuthUtility {
         // i want to validate email and password is it belonging to correct user or not
         // auth utility is going to call UserService to validate email and password belongs to correct user or not
         return userService.validateCredentials(email, password);
+    }
+
+    public String extractTokenFromBearerToken(String bearerToken){
+        return bearerToken.substring(7);
     }
 }
 

@@ -1,12 +1,12 @@
-package com.naukri.central_api.service;
+package com.naukri.central_api.services;
 
 import com.naukri.central_api.connectors.DatabaseApiConnector;
 import com.naukri.central_api.connectors.NotificationApiConnector;
 import com.naukri.central_api.dto.CompanyRegistrationDto;
+import com.naukri.central_api.dto.CreateJobDto;
 import com.naukri.central_api.dto.RecruiterDetailsDto;
 import com.naukri.central_api.exceptions.UnAuthorizedException;
-import com.naukri.central_api.models.AppUser;
-import com.naukri.central_api.models.Company;
+import com.naukri.central_api.models.*;
 import com.naukri.central_api.utility.AuthUtility;
 import com.naukri.central_api.utility.MappingUtility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +23,27 @@ public class CompanyService {
     UserService userService;
     NotificationApiConnector notificationApiConnector;
     AuthUtility authUtility;
+    ApplicationFormService applicationFormService;
+    SkillService skillService;
+    JobService jobService;
 
     @Autowired
     public CompanyService(MappingUtility mappingUtility,
                           DatabaseApiConnector dbApiConnector,
                           UserService userService,
                           NotificationApiConnector notificationApiConnector,
-                          AuthUtility authUtility){
+                          AuthUtility authUtility,
+                          ApplicationFormService applicationFormService,
+                          SkillService skillService,
+                          JobService jobService){
         this.mappingUtility = mappingUtility;
         this.dbApiConnector = dbApiConnector;
         this.userService = userService;
         this.notificationApiConnector = notificationApiConnector;
         this.authUtility = authUtility;
+        this.applicationFormService = applicationFormService;
+        this.skillService = skillService;
+        this.jobService = jobService;
     }
     /**
     * Expectation of this function is to save company details in the company table
@@ -109,5 +118,22 @@ public class CompanyService {
         //calling notification api connector
         notificationApiConnector.callAcceptInvitationEndpoint(mailDetails);
         return recruiter;
+    }
+
+    public Job createJob(CreateJobDto createJobDto,
+                          String Authorization){
+        String token = authUtility.extractTokenFromBearerToken(Authorization);
+        AppUser recruiter = userService.getUserFromToken(token);
+        if(!userService.isUserRecruiter(recruiter)){
+            throw new UnAuthorizedException("Not Authorized to create jobs");
+        }
+        // we need to map createjobdto to job model
+        // so, to map details of createjob to job we need to think about -> what are the necessary details to required to create job model object
+        // as job model is dependent on application form object. we need to think about hoq we can create application form
+        ApplicationForm applicationForm = applicationFormService.createApplicationFormByQuestions(createJobDto.getQuestions());
+        List<Skill> skills = skillService.getAllSkills(createJobDto.getSkills());
+        Job job =  mappingUtility.createJobFromJobDto(createJobDto, applicationForm, skills, recruiter);
+        // we need to save this job
+        return jobService.saveJob(job);
     }
 }
