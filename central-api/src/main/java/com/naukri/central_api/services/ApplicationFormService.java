@@ -1,5 +1,6 @@
 package com.naukri.central_api.services;
 
+import com.naukri.central_api.connectors.DatabaseApiConnector;
 import com.naukri.central_api.models.ApplicationForm;
 import com.naukri.central_api.models.Questions;
 import org.springframework.stereotype.Service;
@@ -10,9 +11,12 @@ import java.util.List;
 public class ApplicationFormService {
 
     QuestionService questionService;
+    DatabaseApiConnector databaseApiConnector;
 
-    public ApplicationFormService(QuestionService questionService){
+    public ApplicationFormService(QuestionService questionService,
+                                  DatabaseApiConnector databaseApiConnector){
         this.questionService = questionService;
+        this.databaseApiConnector = databaseApiConnector;
     }
 
     public ApplicationForm createApplicationFormByQuestions(List<String> questionList){
@@ -23,5 +27,10 @@ public class ApplicationFormService {
         ApplicationForm applicationForm = new ApplicationForm();
         applicationForm.setQuestionsList(questions);
         return applicationForm;
+    }
+
+    public ApplicationForm saveApplicationForm(ApplicationForm applicationForm){
+        // we need o call dbapi to save the application form
+        return databaseApiConnector.callSaveApplicationForm(applicationForm);
     }
 }

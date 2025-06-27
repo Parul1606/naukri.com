@@ -83,4 +83,10 @@ public class DatabaseApiConnector extends RestAPI{
         return modelMapper.map(resp, Job.class);
     }
 
+    public ApplicationForm callSaveApplicationForm(ApplicationForm applicationForm){
+        String endpoint = baseUrl + "/form/save" ;
+        Object resp = this.makePostCall(endpoint, applicationForm, new HashMap<>());
+        return modelMapper.map(resp, ApplicationForm.class);
+    }
+
 }
